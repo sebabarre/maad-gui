@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-
 import { Artist } from './Artist';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
 	selector: 'artist-search-form',
@@ -10,12 +10,19 @@ import { Artist } from './Artist';
 export class ArtistSearchFormComponent  {
 	
   submitted = false;
+  results: Artist[];
+
+  constructor(private http: HttpClient) {}
 
   model = new Artist(0, '', '', '');
 
   onSubmit() { 
   	this.submitted = true; 
-  	console.log(this.model.name)
+  	this.http.get<Artist[]>('http://localhost:8090/artist?name=' + this.model.name).subscribe(data => {
+      // Read the result field from the JSON response.
+      this.results = data;
+      console.log(this.results)
+    });
   }
 
   // TODO: Remove this when we're done
