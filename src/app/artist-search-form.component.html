@@ -9,15 +9,22 @@
 				<input type="text" class="form-control" id="name" [(ngModel)]="model.name" name="name" required>
 			</div>
 			<button type="submit" class="btn btn-success">Chercher !</button>
+			<button (click)="getAll()" class="btn btn-primary">getall</button>
 		</form>
+	</div>
+	<div>
+		<li *ngFor="let item of albums | slice:0:10;" class="dropdown-item">{{item.year}} : {{item.name}}</li>
 	</div>
 	<div class="row mt-4">
 		<div class="card-columns">
 			<div *ngFor="let artist of results" class="card">
 				<img class="card-img-top img-fluid" src="{{ artist.thumb }}" alt="Card image cap">
 				<div class="card-block ">
-					<h4 class="card-title">{{ artist.name }}</h4>
-					<div class="cartd-text">{{ artist.name }}</div>
+					<form (ngSubmit)="onSubmitAlbum(artist)">
+						<h4 class="card-title">{{ artist.name }}</h4>
+						<button type="submit" class="btn btn-primary">Voir albums</button>
+						<button (click)="followThisOne(artist.apiId)" class="btn btn-primary">Follow</button>
+					</form>
 				</div>
 			</div>
 		</div>
